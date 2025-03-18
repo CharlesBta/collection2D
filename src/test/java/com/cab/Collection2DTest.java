@@ -105,7 +105,11 @@ class Collection2DTest {
         Collection2DElementTest elementTest = Collection2DTest.elements.get(0);
 
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> elementTest.setPosition(new Point(-100, -10)), "Element with negative position has been added");
+        elementTest.setPosition(new Point(100, 10));
+        Collection2DTest.collection2D.add(elementTest);
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> elementTest.setPosition(new Point(100, -10)), "Element with negative position has been added");
+        elementTest.setPosition(new Point(100, 10));
+        Collection2DTest.collection2D.add(elementTest);
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> elementTest.setPosition(new Point(-100, 10)), "Element with negative position has been added");
     }
 
@@ -116,15 +120,19 @@ class Collection2DTest {
     }
 
     @Getter
-    @Setter
     private static class Collection2DElementTest implements ICollection2DElement<Collection2DElementTest> {
         private Point position;
+        @Setter
         private Collection2D<Collection2DElementTest> collection;
 
-        public void moveTo(final Point newPosition) {
+        @Override
+        public void setPosition(final Point newPosition) {
             final Point oldPosition = this.position;
-            this.collection.notifyElementHasMoved(this, oldPosition);
             this.position = newPosition;
+
+            if (this.collection != null) {
+                this.collection.notifyElementHasMoved(this, oldPosition);
+            }
         }
     }
 }

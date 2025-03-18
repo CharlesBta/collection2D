@@ -6,8 +6,19 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Collection2D<E extends ICollection2DElement<E>> extends HashMap<Point, List<E>> {
-    public void notifyElementHasMoved(final E collection2DElementTest, final Point oldPosition) {
+    public void notifyElementHasMoved(final E element, final Point oldPosition) {
+        if (element == null) throw new IllegalArgumentException("Element cannot be null");
+        if (element.getCollection() != this) throw new IllegalArgumentException("Element is not in this collection");
+        if (oldPosition == null) throw new IllegalArgumentException("Old position cannot be null");
 
+        final List<E> oldList = this.get(oldPosition);
+        if (oldList == null || !oldList.contains(element))
+            throw new IllegalArgumentException("Element is not in this collection");
+
+        oldList.remove(element);
+        if (oldList.isEmpty()) this.remove(oldPosition);
+        element.setCollection(null);
+        this.add(element);
     }
 
     public void add(final E element) {
