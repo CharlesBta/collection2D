@@ -21,12 +21,19 @@ public class Collection2D<E extends ICollection2DElement<E>> extends HashMap<Poi
         List<E> actualList = this.get(element.getPosition());
         if (actualList == null) actualList = new ArrayList<>();
         actualList.add(element);
-        this.put(element.getPosition(), actualList);
+        this.put(new Point(element.getPosition()), actualList);
         element.setCollection(this);
     }
 
     public void remove(final E element) {
+        if (element == null) throw new IllegalArgumentException("Element cannot be null");
+        if (element.getCollection() != this) throw new IllegalArgumentException("Element is not in this collection");
 
+        final List<E> actualList = this.get(element.getPosition());
+        if (!actualList.contains(element)) throw new IllegalArgumentException("Element is not in this collection");
+        actualList.remove(element);
+        element.setCollection(null);
+        if (actualList.isEmpty()) this.remove(element.getPosition());
     }
 
     public boolean contains(final E elementTest) {

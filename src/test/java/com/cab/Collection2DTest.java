@@ -55,16 +55,20 @@ class Collection2DTest {
         newElement.setPosition(new Point(-100, 10));
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> Collection2DTest.collection2D.add(newElement), "Element with negative position has been added");
         assertThrows(IllegalArgumentException.class, () -> Collection2DTest.collection2D.add(null));
+        newElement.setPosition(new Point(100, 10));
+        newElement.setCollection(new Collection2D<>());
+        assertThrows(IllegalArgumentException.class, () -> Collection2DTest.collection2D.add(newElement), "Element already in a collection has been added");
     }
 
     @Test
     void remove() {
         for (Collection2DElementTest elementTest : Collection2DTest.elements) {
+            List<Collection2DElementTest> actualElementsAtPosition = collection2D.get(elementTest.getPosition());
+            final int expectedSize = actualElementsAtPosition.size() - 1;
+
             collection2D.remove(elementTest);
 
-            List<Collection2DElementTest> actualElementsAtPosition = collection2D.get(elementTest.getPosition());
-
-            assertNotNull(actualElementsAtPosition, "Element list at position " + elementTest.position + " is null");
+            assertEquals(expectedSize, actualElementsAtPosition.size(), "Element list at position " + elementTest.position + " has not been removed");
             assertFalse(actualElementsAtPosition.contains(elementTest), "Element list at position " + elementTest.position + " still contains the element");
             assertThrows(IllegalArgumentException.class, () -> Collection2DTest.collection2D.remove(null), "Element with negative position has been added");
         }
