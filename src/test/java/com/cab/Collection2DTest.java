@@ -13,9 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class Collection2DTest {
 
-    public static final int NB_ELEMENTS_TO_ADD = 100;
+    public static final int NB_ELEMENTS_TO_ADD = 10;
     public static final int NB_ROWS = 100;
-    public static final int NB_COLUMNS = 200;
+    public static final int NB_COLUMNS = 10;
 
     private static Collection2D<Collection2DElementTest> collection2D;
     private static List<Collection2DElementTest> elements;

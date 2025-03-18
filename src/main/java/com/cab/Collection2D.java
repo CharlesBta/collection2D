@@ -36,8 +36,11 @@ public class Collection2D<E extends ICollection2DElement<E>> extends HashMap<Poi
         if (actualList.isEmpty()) this.remove(element.getPosition());
     }
 
-    public boolean contains(final E elementTest) {
-        return false;
+    public boolean contains(final E element) {
+        if (element == null) throw new IllegalArgumentException("Element cannot be null");
+        if (element.getCollection() != this) throw new IllegalArgumentException("Element is not in this collection");
+
+        return this.get(element.getPosition()).contains(element);
     }
 
     public List<E> toList() {
