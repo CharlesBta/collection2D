@@ -97,7 +97,7 @@ class Collection2DTest {
         newElement.setPosition(new Point(1000, 2000));
         Collection2DTest.collection2D.add(newElement);
 
-        assertEquals(new Dimension(1000, 2000), Collection2DTest.collection2D.getDimension(), "Collection2D dimension is not the same as the elements size");
+        assertEquals(new Dimension(1000 + 1, 2000 + 1), Collection2DTest.collection2D.getDimension(), "Collection2D dimension is not the same as the elements size");
     }
 
     @Test

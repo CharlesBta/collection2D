@@ -44,10 +44,21 @@ public class Collection2D<E extends ICollection2DElement<E>> extends HashMap<Poi
     }
 
     public List<E> toList() {
-        return null;
+        final List<E> list = new ArrayList<>();
+        for (final List<E> elements : this.values()) {
+            list.addAll(elements);
+        }
+        return list;
     }
 
-    public E getDimension() {
-        return null;
+    public Dimension getDimension() {
+        int width = 0;
+        int height = 0;
+        for (final Point p : this.keySet()) {
+            if (p.x > width) width = p.x;
+            if (p.y > height) height = p.y;
+        }
+
+        return new Dimension(width + 1, height + 1);
     }
 }
